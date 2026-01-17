@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Loader2, AlertTriangle } from "lucide-react";
 import { SpotifySVG } from "../svgs/Svgs";
+import { API_BASE } from "../lib/config";
 
 export default function MusicPlayer() {
   const audioRef = useRef(null);
@@ -29,7 +30,8 @@ export default function MusicPlayer() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/song-info")
+    console.log("API BASE:", API_BASE);
+    fetch(`${API_BASE}/song-info`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -126,7 +128,7 @@ export default function MusicPlayer() {
         )}
       </button>
 
-      <audio ref={audioRef} src="http://localhost:5000/stream" preload="none" />
+      <audio ref={audioRef} src={`${API_BASE}/stream`} preload="none" />
     </div>
   );
 }
