@@ -5,7 +5,7 @@ export default function Experience() {
   return (
     <div className="px-1">
       <div className="text-sm font-semibold ">Experience</div>
-      <div className="border border-neutral-400 dark:border-neutral-800 rounded-md mt-4">
+      <div className="border shadow-[inset_0px_0px_6px_rgba(0,0,0,0.3)] dark:border-neutral-800 rounded-md mt-4">
         <div className="p-3 flex gap-5">
           <img
             src="/techvision.jpeg"
@@ -19,7 +19,7 @@ export default function Experience() {
               </div>
               <button
                 className={cn(
-                  "border-1 rounded-[3px] text-xs border-neutral-700 dark:border-neutral-800 px-2 bg-neutral-200 dark:bg-neutral-900",
+                  "border-1 rounded-[3px] text-[10px] md:text-xs border-neutral-700 dark:border-neutral-800 px-2 bg-neutral-200 dark:bg-neutral-900",
                   "shadow-[1px_1px_0px_0px_var(--color-neutral-700)] dark:shadow-[0px_-1px_0px_0px_var(--color-neutral-600)]",
                   "transition-all duration-200  tracking-tight leading-tight",
                   "text-neutral-800 dark:text-neutral-300"

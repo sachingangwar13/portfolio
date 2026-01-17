@@ -1,5 +1,6 @@
 import { Github, Linkedin, Twitter, Mail, MapPin } from "lucide-react";
 import CurrentTime from "./CurrentTime";
+import MusicPlayer from "./MusicPlayer";
 
 const socials = [
   {
@@ -90,8 +91,11 @@ function AboutMe() {
           Resume
         </a>
 
-        {socials.map((item, key) => (
-          <button className="opacity-65 hover:opacity-100 h-8 w-8 flex items-center justify-center rounded-md border border-neutral-500 dark:text-neutral-400  dark:hover:bg-neutral-950 dark:border-neutral-600 p-1 text-neutral-700 hover:bg-neutral-50">
+        {socials.map((item, index) => (
+          <button
+            key={index}
+            className="opacity-65 hover:opacity-100 h-8 w-8 flex items-center justify-center rounded-md border border-neutral-500 dark:text-neutral-400  dark:hover:bg-neutral-950 dark:border-neutral-600 p-1 text-neutral-700 hover:bg-neutral-50"
+          >
             <a
               href={item.link}
               target="_blank"
@@ -103,6 +107,8 @@ function AboutMe() {
           </button>
         ))}
       </div>
+
+      <MusicPlayer />
     </div>
   );
 }

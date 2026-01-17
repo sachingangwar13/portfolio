@@ -34,10 +34,11 @@ export default function Skills() {
   ];
 
   return (
-    <div className='border mt-5 rounded-md border-neutral-400 dark:border-neutral-800 flex flex-col'>
+    <div className='border shadow-[inset_0px_0px_6px_rgba(0,0,0,0.3)]
+ mt-5 rounded-md  dark:border-neutral-800 flex flex-col'>
       <div className='flex justify-between items-center px-4 py-1'>
         <div className='text-sm font-semibold'>Skills</div>
-        <div className='text-xs font-sans text-neutral-500'>hover on this🤭</div>
+        <div className='text-xs hidden md:inline font-sans text-neutral-500'>hover on this🤭</div>
       </div>
 
       <div className="flex flex-wrap gap-2 relative p-4">

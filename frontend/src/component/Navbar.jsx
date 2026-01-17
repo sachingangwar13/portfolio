@@ -33,7 +33,7 @@ function Navbar() {
   return (
     <nav
       aria-label="Quick actions"
-      class="flex items-center gap-1 rounded-xl border border-neutral-200 bg-white/90 p-1.5 shadow-lg backdrop-blur-xs dark:backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-950/80"
+      className="flex items-center gap-1 rounded-xl border border-neutral-200 bg-white/90 p-1.5 shadow-lg backdrop-blur-xs dark:backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-950/80"
     >
       {socials.map((item, index) => (
         <a

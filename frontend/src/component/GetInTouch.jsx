@@ -47,8 +47,8 @@ function GetInTouch() {
       </a>
 
       <div className="flex gap-3 mb-3">
-        {socials.map((item, key) => (
-          <button className="opacity-65 hover:opacity-100 h-8 w-8 flex items-center justify-center rounded-md border border-neutral-400 dark:text-neutral-400  dark:hover:bg-neutral-950 dark:border-neutral-600 p-0 text-neutral-700 hover:bg-neutral-50">
+        {socials.map((item, index) => (
+          <button key={index} className="opacity-65 hover:opacity-100 h-8 w-8 flex items-center justify-center rounded-md border border-neutral-400 dark:text-neutral-400  dark:hover:bg-neutral-950 dark:border-neutral-600 p-0 text-neutral-700 hover:bg-neutral-50">
             <a
               href={item.link}
               target="_blank"
