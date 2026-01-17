@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-app",
+  "version": "1.0.0",
+  "description": "my own portfolio",
+  "private": true,
+  "scripts": {
+    "start": "node backend/index.js",
+    "dev": "cd backend && npm run dev",
+    "build:frontend": "npm run build"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
