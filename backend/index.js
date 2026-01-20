@@ -17,7 +17,6 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const CODE = process.env.CODE;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
-
 async function getAccessToken() {
   const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64");
 
@@ -31,7 +30,7 @@ async function getAccessToken() {
   });
 
   const data = await res.json();
-//   console.log("token response:", data);
+  //   console.log("token response:", data);
   return data;
 }
 
@@ -43,17 +42,16 @@ app.get("/song-info", async (req, res) => {
     title: track.name,
     artist: track.artists[0].name,
     albumArt: track.album.images[0].url,
-    spotifyUrl: track.external_urls.spotify
+    spotifyUrl: track.external_urls.spotify,
   });
 
-  console.log("song: ",{
+  console.log("song: ", {
     title: track.name,
     artist: track.artists[0].name,
     albumArt: track.album.images[0].url,
-    spotifyUrl: track.external_urls.spotify
+    spotifyUrl: track.external_urls.spotify,
   });
 });
-
 
 async function getLastPlayed() {
   const token = await getAccessToken();
@@ -70,13 +68,13 @@ async function getLastPlayed() {
         Authorization: `Bearer ${token.access_token}`,
         Accept: "application/json",
       },
-    }
+    },
   );
 
-//   console.log("Spotify status:", res.status);
+  //   console.log("Spotify status:", res.status);
 
   const text = await res.text();
-//   console.log("Spotify raw:", text);
+  //   console.log("Spotify raw:", text);
 
   if (!res.ok) return null;
 
@@ -87,7 +85,6 @@ async function getLastPlayed() {
   return data.items[0].track;
 }
 
-
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
@@ -95,7 +92,7 @@ app.get("/health", (req, res) => {
 app.get("/song", async (req, res) => {
   try {
     const { name } = req.query;
-
+    console.log(name);
     if (!name || !name.trim()) {
       return res.status(400).json({ error: "Song name required" });
     }
@@ -104,8 +101,18 @@ app.get("/song", async (req, res) => {
 
     const query = name.trim();
 
+    const normalized = name
+      .toLowerCase()
+      .replace(/[-–—]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    console.log(normalized);
     const song = await Song.findOne({
-      name: { $regex: query, $options: "i" }
+      name: {
+        $regex: normalized.split(" ").join(".*"),
+        $options: "i",
+      },
     });
 
     if (!song) {
@@ -117,9 +124,8 @@ app.get("/song", async (req, res) => {
       artist: song.artist,
       albumArt: song.cover,
       audioUrl: song.audio,
-      color: song.color
+      color: song.color,
     });
-
   } catch (err) {
     console.error("song error:", err);
     res.status(500).json({ error: "Server error" });
