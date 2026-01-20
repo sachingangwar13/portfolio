@@ -2,7 +2,7 @@ export function ReactSVG(props) {
   return (
     <button className="group">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlnsxlinkns="http://www.w3.org/2000/svg"
         width="18"
         height="18"
         viewBox="0 0 24 24"
@@ -29,7 +29,7 @@ export function ReactSVG(props) {
 export function GithubSVG() {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      xmlnsxlinkns="http://www.w3.org/2000/svg"
       width="12"
       height="12"
       viewBox="0 0 24 24"
@@ -61,8 +61,7 @@ export function SpotifySVG() {
       height="10px"
       viewBox="0 0 48 48"
       version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsxlinkns="http://www.w3.org/2000/svg"
     >
       <title>Spotify-color</title>
       <desc>Created with Sketch.</desc>
@@ -70,9 +69,9 @@ export function SpotifySVG() {
       <g
         id="Icons"
         stroke="none"
-        stroke-width="1"
+        strokeWidth="1"
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       >
         <g
           id="Color-"
@@ -93,7 +92,7 @@ export function Mongodb(props) {
   return (
     <button className="group">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlnsxlinknsns="http://www.w3.org/2000/svg"
         width="22"
         height="22"
         viewBox="0 0 24 24"
@@ -114,7 +113,7 @@ export function NodeJs(props) {
   return (
     <button className="group">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlnsxlinkns="http://www.w3.org/2000/svg"
         width="18"
         height="18"
         viewBox="0 0 24 24"
@@ -135,7 +134,7 @@ export function Express(props) {
   return (
     <button className="group">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlnsxlinkns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
         viewBox="0 0 24 24"

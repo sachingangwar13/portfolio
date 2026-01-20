@@ -11,36 +11,82 @@ export default function MusicPlayer() {
   const [songName, setSongName] = useState("");
   const [albumArt, setAlbumArt] = useState("");
   const [artistName, setArtistName] = useState("");
+  const [audioUrl, setAudioUrl] = useState("");
+  const [canPlay, setCanPlay] = useState(true);
 
   const toggle = async () => {
-    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!canPlay) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
 
     setError(false);
 
-    if (audioRef.current.paused) {
+    if (audio.paused) {
       try {
         setLoading(true);
-        await audioRef.current.play();
+        await audio.play();
       } catch (e) {
         setError(true);
       }
     } else {
-      audioRef.current.pause();
+      audio.pause();
     }
   };
 
   useEffect(() => {
-    console.log("API BASE:", API_BASE);
+    // console.log("API BASE:", API_BASE);
     fetch(`${API_BASE}/song-info`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("API failed");
+        return res.json();
+      })
       .then((data) => {
-        // console.log(data);
         setSongName(data.title);
         setAlbumArt(data.albumArt);
         setArtistName(data.artist);
+        setAudioUrl(data.audioUrl);
       })
-      .catch(() => {});
+      .catch(() => {
+        setError(true);
+      });
   }, []);
+
+  useEffect(() => {
+    const songNameFromSpotify = songName.trim();
+
+    // console.log(songNameFromSpotify)
+
+    if (!songNameFromSpotify) return;
+
+    // console.log(encodeURIComponent(songNameFromSpotify));
+    fetch(`${API_BASE}/song?name=${encodeURIComponent(songNameFromSpotify)}`)
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error("Song not playable");
+        }
+        // console.log(res);
+        
+        return res.json();
+      })
+      .then((data) => {
+        // console.log(data);
+        setAudioUrl(data.audioUrl);
+      })
+      .catch(() => {
+        setCanPlay(false);
+        setError(true);
+        setAudioUrl("");
+      });
+  }, [songName]);
+
+  useEffect(() => {
+    setError(false);
+  }, [audioUrl]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -89,7 +135,10 @@ export default function MusicPlayer() {
         <div>
           <div className="flex items-center gap-1">
             <SpotifySVG />
-            <p className="text-[10px] font-extralight tracking-wide"> last played</p>
+            <p className="text-[10px] font-extralight tracking-wide">
+              {" "}
+              last played
+            </p>
           </div>
           <p className="text-sm font-semibold tracking-wide">
             {songName || "No song playing"}
@@ -120,7 +169,13 @@ export default function MusicPlayer() {
         {loading ? (
           <Loader2 className="animate-spin h-4 w-4" />
         ) : error ? (
-          <AlertTriangle className="text-red-500 h-4 w-4" />
+          <div className="relative group flex items-center justify-center">
+            <AlertTriangle className="text-red-500 h-4 w-4 cursor-pointer" />
+
+            <div className="absolute border bottom-full mb-4 hidden group-hover:block transition-all duration-900 whitespace-nowrap rounded-sm bg-neutral-950 px-2 py-1 text-[8px] text-white shadow-lg z-50">
+              Unable to play right now
+            </div>
+          </div>
         ) : playing ? (
           <Pause className="h-4 w-4" />
         ) : (
@@ -128,7 +183,7 @@ export default function MusicPlayer() {
         )}
       </button>
 
-      <audio ref={audioRef} src={`${API_BASE}/stream`} preload="none" />
+      <audio ref={audioRef} src={canPlay ? audioUrl : null} preload="auto" />
     </div>
   );
 }

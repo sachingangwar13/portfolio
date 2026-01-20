@@ -31,7 +31,7 @@ async function getAccessToken() {
   });
 
   const data = await res.json();
-  console.log("token response:", data);
+//   console.log("token response:", data);
   return data;
 }
 
@@ -73,10 +73,10 @@ async function getLastPlayed() {
     }
   );
 
-  console.log("Spotify status:", res.status);
+//   console.log("Spotify status:", res.status);
 
   const text = await res.text();
-  console.log("Spotify raw:", text);
+//   console.log("Spotify raw:", text);
 
   if (!res.ok) return null;
 
