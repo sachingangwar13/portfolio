@@ -8,7 +8,7 @@ export default function Projects() {
       title: "2minPortfolio",
       description:
         "Build your portfolio in no time with our user‑friendly interface, allowing you to showcase your work effortlessly.",
-      techStack: ["React", "MongoDB", "Express", "Node"],
+      techStack: ["React.js", "MongoDB", "Express.js", "Node.js"],
       links: {
         live: "https://sachin-2min-portfolio.vercel.app/",
         github: "https://github.com/sachingangwar13/2minPortfolio",
@@ -31,7 +31,7 @@ export default function Projects() {
   return (
     <div className="p-2">
       <div className="flex justify-between">
-        <div className="text-sm font-semibold">Projects.</div>
+        <div className="text-sm font-semibold">Projects</div>
       </div>
 
       {projects.map((project, index) => (
