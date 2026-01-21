@@ -14,7 +14,7 @@ export default function Education() {
 
     return (
         <div className='flex flex-col'>
-            <div className='text-sm font-semibold p-2'>Education.</div>
+            <div className='text-sm font-semibold p-2'>Education</div>
 
             {educationList.map((edu, index) => (
                 <div
