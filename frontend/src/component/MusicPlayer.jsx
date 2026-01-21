@@ -62,7 +62,7 @@ export default function MusicPlayer() {
   useEffect(() => {
     const songNameFromSpotify = songName.trim();
 
-    console.log(songNameFromSpotify);
+    // console.log(songNameFromSpotify);
 
     if (!songNameFromSpotify) return;
 
@@ -186,7 +186,7 @@ export default function MusicPlayer() {
               <img
                 src={albumArt}
                 alt="Album Art"
-                className="w-12 h-12 rounded-md shadow-md border-1 border-white/15"
+                className="w-12 h-12 rounded-md shadow-md border-1 border-black/20 dark:border-white/20"
               />
             )}
 
@@ -245,13 +245,13 @@ export default function MusicPlayer() {
         >
           <div
             className={`flex justify-between items-center gap-2 text-[10px] opacity-70 transition-all ${
-              playing ? "mt-1" : "mt-0"
+              playing ? "mt-1 mb-0.5" : "mt-0"
             }`}
           >
             <span>{formatTime(progress)}</span>
             <div
               data-progress-bar
-              className="relative w-full h-1 bg-white/20 rounded cursor-pointer"
+              className="relative w-full h-1 dark:bg-white/20 bg-black/20 rounded cursor-pointer"
               onClick={(e) => {
                 if (!audioRef.current || !duration) return;
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -268,14 +268,14 @@ export default function MusicPlayer() {
               }}
             >
               <div
-                className="absolute left-0 top-0 h-1 bg-white/80 rounded"
+                className="absolute left-0 top-0 h-1 bg-black dark:bg-white/80  rounded"
                 style={{
                   width: `${duration ? (progress / duration) * 100 : 0}%`,
                 }}
               />
 
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 border-1 border-neutral-950 bg-white dark:bg-black dark:border-neutral-200 hover:ring-3  hover:ring-neutral-500/50 dark:hover:ring-neutral-400/40 transition-all py-1 duration-200 rounded-full shadow-md"
                 style={{
                   left: `calc(${duration ? (progress / duration) * 100 : 0}% - 6px)`,
                 }}
