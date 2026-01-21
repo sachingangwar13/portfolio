@@ -17,19 +17,18 @@ import {
 export default function Skills() {
 
   const skills = [
-    { title: "MongoDB", icon: SiMongodb },
-    { title: "React", icon: SiReact },
+    { title: "JavaScript", icon: SiJavascript },
+    { title: "React.js", icon: SiReact },
     { title: "Node.js", icon: SiNodedotjs },
-    { title: "Python", icon: SiPython },
     { title: "Tailwind", icon: SiTailwindcss },
     { title: "C++", icon: SiCplusplus },
-    { title: "JavaScript", icon: SiJavascript },
-    
-    { title: "Shadcn", icon: SiShadcnui },
-    { title: "Postman", icon: SiPostman },
-    { title: "GitHub", icon: SiGithub },
-    { title: "Express.js", icon: SiExpress },
     { title: "git", icon: SiGit },
+    { title: "MongoDB", icon: SiMongodb },
+    { title: "Express.js", icon: SiExpress },
+    { title: "Python", icon: SiPython },
+    { title: "GitHub", icon: SiGithub },
+    { title: "Postman", icon: SiPostman },
+    { title: "Shadcn", icon: SiShadcnui },
     { title: "streamlit", icon: SiStreamlit },
   ];
 
