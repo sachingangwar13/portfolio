@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 dotenv.config();
-
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./db/connect.js";
 import Song from "./models/Songs.js";
+import SongSuggestion from "./models/SongSuggestion.js";
+import axios from "axios";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,7 +38,6 @@ async function getAccessToken() {
 app.get("/song-info", async (req, res) => {
   const track = await getLastPlayed();
   if (!track) return res.status(404).end();
-
   res.json({
     title: track.name,
     artist: track.artists[0].name,
@@ -71,10 +71,7 @@ async function getLastPlayed() {
     },
   );
 
-  //   console.log("Spotify status:", res.status);
-
   const text = await res.text();
-  //   console.log("Spotify raw:", text);
 
   if (!res.ok) return null;
 
@@ -91,8 +88,8 @@ app.get("/health", (req, res) => {
 
 app.get("/song", async (req, res) => {
   try {
-    const { name } = req.query;
-    console.log(name);
+    const { name, artistName } = req.query;
+
     if (!name || !name.trim()) {
       return res.status(400).json({ error: "Song name required" });
     }
@@ -107,7 +104,6 @@ app.get("/song", async (req, res) => {
       .replace(/\s+/g, " ")
       .trim();
 
-    console.log(normalized);
     const song = await Song.findOne({
       name: {
         $regex: normalized.split(" ").join(".*"),
@@ -116,6 +112,63 @@ app.get("/song", async (req, res) => {
     });
 
     if (!song) {
+      const searchEndPoint = process.env.searchEndPoint;
+
+      const searchRes = await axios.get(
+        `${searchEndPoint}/jiosaavn/search?query=${encodeURIComponent(name + " " + artistName)}&limit=1`,
+      );
+
+      const songInfo = searchRes.data.songs[0];
+
+      const data = {
+        songId: songInfo.id,
+        jiosaavnSong: {
+          name: songInfo.name,
+          artist: songInfo.artists,
+          cover: songInfo.image,
+          audio: songInfo.audio,
+          color: songInfo.color,
+        },
+      };
+
+      const songId = data.songId;
+      const jiosaavnSong = data.jiosaavnSong;
+      console.log(songInfo);
+
+      const isJioSaavnSong = songId?.startsWith("jiosaavn_");
+
+      if (isJioSaavnSong && jiosaavnSong) {
+        let existingSong = await Song.findOne({
+          $or: [
+            { audio: jiosaavnSong.audio },
+            { name: jiosaavnSong.name, artist: jiosaavnSong.artist },
+          ],
+        });
+
+        if(!existingSong) {
+          await SongSuggestion.create({
+            name: songInfo.name,
+            artist: songInfo.artist,
+            cover: songInfo.cover,
+            audio: songInfo.audio,
+            color: songInfo.color || ["#667eea", "#764ba2"],
+            jiosaavnId: songId,
+            count: 1,
+            status: "pending",
+          });
+
+          // console.log("song added");
+
+          return res.json({
+            title: songInfo.name,
+            artist: songInfo.artist,
+            albumArt: songInfo.cover,
+            audioUrl: songInfo.audio,
+            color: songInfo.color,
+          });
+        }
+      }
+
       return res.status(404).json({ error: "Song not found" });
     }
 
