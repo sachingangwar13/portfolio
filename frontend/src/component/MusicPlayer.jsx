@@ -16,6 +16,7 @@ export default function MusicPlayer() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [seeking, setSeeking] = useState(false);
+  const [songUrl, setSongUrl] = useState("");
 
   const toggle = async () => {
     const audio = audioRef.current;
@@ -53,6 +54,7 @@ export default function MusicPlayer() {
         setAlbumArt(data.albumArt);
         setArtistName(data.artist);
         setAudioUrl(data.audioUrl);
+        console.log(data.artist);
       })
       .catch(() => {
         setError(true);
@@ -66,8 +68,7 @@ export default function MusicPlayer() {
 
     if (!songNameFromSpotify) return;
 
-    console.log(encodeURIComponent(songNameFromSpotify));
-    fetch(`${API_BASE}/song?name=${encodeURIComponent(songNameFromSpotify)}`)
+    fetch(`${API_BASE}/song?name=${encodeURIComponent(songNameFromSpotify)}&artistName=${artistName ? encodeURIComponent(artistName) : "sachin"}`)
       .then(async (res) => {
         if (!res.ok) {
           throw new Error("Song not playable");
@@ -77,7 +78,6 @@ export default function MusicPlayer() {
         return res.json();
       })
       .then((data) => {
-        // console.log(data);
         setAudioUrl(data.audioUrl);
       })
       .catch(() => {
@@ -198,9 +198,9 @@ export default function MusicPlayer() {
                   last played
                 </p>
               </div>
-              <p className="text-sm font-semibold tracking-wide">
+              <a href={songUrl} target="_blank" rel="noopener noreferrer" className={`text-sm font-semibold tracking-wide ${songName? "hover:text-green-400 hover:underline transition-all duration-200" : ""}`}>
                 {songName || "No song playing"}
-              </p>
+              </a>
               <p className="text-[10px] font-extralight">
                 by {artistName || "Unknown Artist"}
               </p>
